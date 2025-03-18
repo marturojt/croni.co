@@ -15,8 +15,6 @@ async def shorten_url(url: str) -> UrlResponse:
     Shorten a URL by generating a random string.
     """
 
-    print(f"Shortening URL: {url}")
-
     # Generate a unique short URL and save it
     for _ in range(3):  # Limit attempts to avoid infinite loops
         short_url = generate_short_url()

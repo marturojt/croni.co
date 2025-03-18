@@ -77,5 +77,5 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         response_model=UrlResponse
         )
 # async def shorten_url(url: UrlInput, authenticate: TokenData = Depends(user_authentication)):
-async def shorten_url(url_input: UrlInput):
+async def generate_shorten_url(url_input: UrlInput):
     return await shorten_url(url_input.long_url)
