@@ -1,0 +1,11 @@
+[database]
+host = YOUR_HOST
+port = YOUR_PORT
+database = YOUR_DATABASE
+username = YOUR_USERNAME
+password = YOUR_PASSWORD
+
+[misc-keys]
+secret-jwt = YOUR_SECRET_JWT_STRING
+algorithm = YOUR_ALGORITHM
+access-token-expiration = YOUR_ACCESS_TOKEN_EXPIRATION_TIME_IN_MINUTES

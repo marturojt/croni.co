@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+sqlalchemy-utils
+pydantic
+mysql-connector-python
+python-dotenv
+python-crontab
+configparser
+bcrypt
+python-jose
+eval-type-backport
+python-multipart
