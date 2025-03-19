@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 from contextlib import contextmanager
 import configparser
+import datetime
 
 from models.models import Base, Users, hash_password, Url
 
@@ -77,3 +78,23 @@ def list_urls():
     with session_scope() as session:
         urls = session.query(Url).all()
         return urls
+    
+# Update last used timestamp of a URL
+def update_last_used(short_url):
+    with session_scope() as session:
+        url = session.query(Url).filter(
+            Url.short_url == short_url).first()
+        if url:
+            url.last_used = datetime.datetime.utcnow()
+            session.commit()
+        return url
+    
+# Delete a URL from the database
+def delete_url(short_url):
+    with session_scope() as session:
+        url = session.query(Url).filter(
+            Url.short_url == short_url).first()
+        if url:
+            session.delete(url)
+            session.commit()
+        return url

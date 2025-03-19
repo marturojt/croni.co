@@ -29,3 +29,14 @@ class UrlInput(BaseModel):
 class UrlResponse(BaseModel):
     short_url: str
     long_url: str
+
+class DeletedUrl(BaseModel):
+    short_url: str
+    long_url: str
+    created_at: datetime
+    last_used: datetime
+
+class DeletedUrls(BaseModel):
+    deleted_urls: List[DeletedUrl]
+    deleted_count: int
+    message: str = "Deleted URLs that have not been used in the last 30 days"

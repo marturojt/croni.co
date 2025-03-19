@@ -7,12 +7,13 @@ from time import time
 
 from models.validations import (
     Token, TokenData,
-    UrlResponse, UrlInput
+    UrlResponse, UrlInput,
+    DeletedUrls
 )
 
 from helpers import (
     validate_user_login, user_authentication,
-    shorten_url
+    shorten_url, get_long_url, delete_inactive_urls
 )
 
 # ====== LOGGING SETUP WITH ROTATION ====== #
@@ -40,8 +41,8 @@ logger.addHandler(log_handler)
 # ====== FASTAPI APP ====== #
 app = FastAPI(
     swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"},
-    title="ART IA API",
-    description="API to manage OpenAI integrations for NowMe app, and other projects",
+    title="Croni.co API",
+    description="API to manage URL shortening",
 )
 
 # Middleware to log requests
@@ -76,6 +77,27 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         summary="Shorten a URL",
         response_model=UrlResponse
         )
-# async def shorten_url(url: UrlInput, authenticate: TokenData = Depends(user_authentication)):
-async def generate_shorten_url(url_input: UrlInput):
-    return await shorten_url(url_input.long_url)
+# async def generate_shorten_url(url: UrlInput, authenticate: TokenData = Depends(user_authentication)):
+async def generate_shorten_url(url: UrlInput):
+    return await shorten_url(url.long_url)
+
+# Get long URL from short URL
+@app.get(
+        "/{short_url}",
+        tags=["URL Shortener"],
+        summary="Get long URL from short URL",
+        # response_model=UrlResponse
+        )
+async def redirect_long_url(short_url: str):
+    return await get_long_url(short_url)
+
+
+# Delete inactive URLs
+@app.delete(
+        "/delete_inactive_urls",
+        tags=["URL Shortener"],
+        summary="Delete inactive URLs",
+        response_model=DeletedUrls
+        )
+async def delete_inactive(authenticate: TokenData = Depends(user_authentication)):
+    return await delete_inactive_urls()
